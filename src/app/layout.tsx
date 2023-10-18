@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { getServerAuthSession } from "~/server/auth";
+import { Providers } from "./_components/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,15 +18,19 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerAuthSession();
+
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        <Providers session={session}>
+          <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        </Providers>
       </body>
     </html>
   );

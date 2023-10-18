@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import { SomeClientComponent } from "./_components/some-client-component";
 
 export default async function Home() {
   const hello = await api.post.hello.query({ text: "from tRPC" });
@@ -57,6 +58,7 @@ export default async function Home() {
         </div>
 
         <CrudShowcase />
+        <SomeClientComponent />
       </div>
     </main>
   );
